@@ -78,7 +78,7 @@ func (p *Postgres) Close() {
 func createTables(pool *pgxpool.Pool) (*Postgres, error) {
 	_, err := pool.Exec(context.Background(), `
 		CREATE TABLE IF NOT EXISTS neo_counts(
-		date timestamp  NOT NULL
+		date VARCHAR(12) UNIQUE NOT NULL,
 		count INT
 );  
 `)
