@@ -7,16 +7,19 @@ import (
 )
 
 type AsteroidUseCase struct {
-	asteroidRepo asteroid.AsteroidRepository
+	asteroidRepo   asteroid.AsteroidRepository
+	asteroidWebAPI asteroid.NasaWebAPI
 }
 
-func NewAsteroidUseCase(asteroidRepo asteroid.AsteroidRepository) *AsteroidUseCase {
-	return &AsteroidUseCase{asteroidRepo: asteroidRepo}
+func NewAsteroidUseCase(asteroidRepo asteroid.AsteroidRepository, webAPI asteroid.NasaWebAPI) *AsteroidUseCase {
+	return &AsteroidUseCase{
+		asteroidRepo:   asteroidRepo,
+		asteroidWebAPI: webAPI}
 }
 
-func (a *AsteroidUseCase) GetNextDateUC(l logger.Interface, dates []string) (*entity.Asteroid, error) {
+func (a *AsteroidUseCase) GetNextDateUC(l logger.Interface, dates []string) (int, error) {
 	l.Info("GetNextDateUC.")
-	return a.asteroidRepo.GetNextDateRepo(l, dates)
+	return a.asteroidWebAPI.GetNextDateWebAPI(l, dates)
 }
 
 func (a *AsteroidUseCase) SaveAsteroidsUC(l logger.Interface, asteroids entity.NeoCounts) error {

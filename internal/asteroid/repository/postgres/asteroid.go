@@ -14,11 +14,6 @@ func NewAsteroidRepository(db *postgres.Postgres) *AsteroidRepository {
 	return &AsteroidRepository{db}
 }
 
-func (a *AsteroidRepository) GetNextDateRepo(l logger.Interface, dates []string) (*entity.Asteroid, error) {
-	l.Info("GetNextDateRepo.")
-	return nil, nil
-}
-
 func (a *AsteroidRepository) SaveAsteroidsRepo(l logger.Interface, asteroids entity.NeoCounts) error {
 	l.Info("SaveAsteroidsRepo.")
 	return nil

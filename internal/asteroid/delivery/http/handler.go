@@ -58,11 +58,12 @@ func (h *Handler) GetNextDate(c *gin.Context) {
 	dates := c.QueryArray("dates")
 	fmt.Println("dates:", dates)
 
-	date, err := h.useCase.GetNextDateUC(h.l, dates)
+	counts, err := h.useCase.GetNextDateUC(h.l, dates)
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
 	}
-	fmt.Println("nearest date: ", date)
+	fmt.Println("nearest date: ", counts)
 
+	//вернуть колтчество астероидов count
 	c.Status(http.StatusOK)
 }

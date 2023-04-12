@@ -7,6 +7,7 @@ import (
 	asteroidRouter "github.com/22Fariz22/asteroid-warning/internal/asteroid/delivery/http"
 	asteroidRepo "github.com/22Fariz22/asteroid-warning/internal/asteroid/repository/postgres"
 	"github.com/22Fariz22/asteroid-warning/internal/asteroid/usecase"
+	"github.com/22Fariz22/asteroid-warning/internal/asteroid/webAPI"
 	"github.com/22Fariz22/asteroid-warning/internal/config"
 	"github.com/22Fariz22/asteroid-warning/pkg/logger"
 	"github.com/22Fariz22/asteroid-warning/pkg/postgres"
@@ -33,11 +34,12 @@ func NewApp(cfg *config.Config) *App {
 	}
 
 	asteroidRepo := asteroidRepo.NewAsteroidRepository(db)
+	asteroidWebAPI := webAPI.NewWebAPI()
 
 	return &App{
 		cfg:        cfg,
 		httpServer: nil,
-		asteroidUC: usecase.NewAsteroidUseCase(asteroidRepo),
+		asteroidUC: usecase.NewAsteroidUseCase(asteroidRepo, asteroidWebAPI),
 	}
 }
 

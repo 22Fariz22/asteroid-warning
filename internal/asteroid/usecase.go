@@ -6,6 +6,6 @@ import (
 )
 
 type UseCase interface {
-	GetNextDateUC(l logger.Interface, dates []string) (*entity.Asteroid, error)
+	GetNextDateUC(l logger.Interface, dates []string) (int, error)
 	SaveAsteroidsUC(l logger.Interface, asteroids entity.NeoCounts) error
 }
