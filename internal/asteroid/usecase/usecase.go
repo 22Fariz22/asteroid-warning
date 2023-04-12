@@ -17,7 +17,8 @@ type AsteroidUseCase struct {
 func NewAsteroidUseCase(asteroidRepo asteroid.AsteroidRepository, webAPI asteroid.NasaWebAPI) *AsteroidUseCase {
 	return &AsteroidUseCase{
 		asteroidRepo:   asteroidRepo,
-		asteroidWebAPI: webAPI}
+		asteroidWebAPI: webAPI,
+	}
 }
 
 var datesTimeTime []time.Time
