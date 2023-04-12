@@ -6,5 +6,5 @@ import (
 )
 
 type AsteroidRepository interface {
-	SaveAsteroidsRepo(l logger.Interface, asteroids entity.NeoCounts) error
+	SaveAsteroidsRepo(l logger.Interface, asteroids *entity.NeoCounts) error
 }

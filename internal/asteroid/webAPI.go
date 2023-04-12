@@ -1,9 +1,11 @@
 package asteroid
 
 import (
+	"context"
 	"github.com/22Fariz22/asteroid-warning/pkg/logger"
+	"time"
 )
 
 type NasaWebAPI interface {
-	GetNextDateWebAPI(l logger.Interface, dates []string) (int, error)
+	GetNextDateWebAPI(ctx context.Context, l logger.Interface, dates []time.Time) (int64, error)
 }

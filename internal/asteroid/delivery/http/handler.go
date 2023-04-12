@@ -1,6 +1,7 @@
 package http
 
 import (
+	"context"
 	"fmt"
 	"github.com/22Fariz22/asteroid-warning/internal/asteroid"
 	"github.com/22Fariz22/asteroid-warning/internal/entity"
@@ -8,6 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"reflect"
+	"strconv"
+	"time"
 )
 
 type Handler struct {
@@ -35,7 +38,7 @@ func (h *Handler) SaveAsteroids(c *gin.Context) {
 		return
 	}
 
-	err := h.useCase.SaveAsteroidsUC(h.l, *inp)
+	err := h.useCase.SaveAsteroidsUC(h.l, inp)
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
@@ -52,18 +55,20 @@ func (h *Handler) SaveAsteroids(c *gin.Context) {
 func (h *Handler) GetNextDate(c *gin.Context) {
 	h.l.Info("handler GetAsteroids")
 
-	//ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	//defer cancel()
+	//таймер на 10 секунд
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
+	defer cancel()
+
+	// update gin request context
+	c.Request = c.Request.WithContext(ctx)
 
 	dates := c.QueryArray("dates")
-	fmt.Println("dates:", dates)
 
-	counts, err := h.useCase.GetNextDateUC(h.l, dates)
+	counts, err := h.useCase.GetNextDateUC(ctx, h.l, dates)
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
 	}
-	fmt.Println("nearest date: ", counts)
 
 	//вернуть колтчество астероидов count
-	c.Status(http.StatusOK)
+	c.Data(http.StatusOK, strconv.FormatInt(counts, 10), []byte(strconv.FormatInt(counts, 10)))
 }
