@@ -2,11 +2,12 @@ package usecase
 
 import (
 	"context"
+	"sort"
+	"time"
+
 	"github.com/22Fariz22/asteroid-warning/internal/asteroid"
 	"github.com/22Fariz22/asteroid-warning/internal/entity"
 	"github.com/22Fariz22/asteroid-warning/pkg/logger"
-	"sort"
-	"time"
 )
 
 type AsteroidUseCase struct {
@@ -25,8 +26,6 @@ var datesTimeTime []time.Time
 
 // GetNextDateUC return counts
 func (a *AsteroidUseCase) GetNextDateUC(ctx context.Context, l logger.Interface, dates []string) (int64, error) {
-	l.Info("GetNextDateUC.")
-
 	//перевести даты в time.Time и отсортировать даты
 	for i, _ := range dates {
 		date := dates[i]
@@ -47,7 +46,6 @@ func (a *AsteroidUseCase) GetNextDateUC(ctx context.Context, l logger.Interface,
 }
 
 func (a *AsteroidUseCase) SaveAsteroidsUC(l logger.Interface, asteroids *entity.NeoCounts) error {
-	l.Info("SaveAsteroidsUC.")
 	return a.asteroidRepo.SaveAsteroidsRepo(l, asteroids)
 
 }

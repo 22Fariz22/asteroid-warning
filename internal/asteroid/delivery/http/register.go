@@ -8,7 +8,6 @@ import (
 
 func RegisterHTTPEndpointsOrder(router *gin.RouterGroup, uc asteroid.UseCase, l logger.Interface) {
 	h := NewHandler(uc, l)
-	h.l.Info("handler RegisterHTTPEndpointsOrder")
 
 	asteroid := router.Group("/neo/count")
 	{

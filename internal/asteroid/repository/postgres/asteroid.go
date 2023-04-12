@@ -2,7 +2,7 @@ package postgres
 
 import (
 	"context"
-	"fmt"
+
 	"github.com/22Fariz22/asteroid-warning/internal/entity"
 	"github.com/22Fariz22/asteroid-warning/pkg/logger"
 	"github.com/22Fariz22/asteroid-warning/pkg/postgres"
@@ -17,10 +17,6 @@ func NewAsteroidRepository(db *postgres.Postgres) *AsteroidRepository {
 }
 
 func (a *AsteroidRepository) SaveAsteroidsRepo(l logger.Interface, asteroids *entity.NeoCounts) error {
-	l.Info("SaveAsteroidsRepo.")
-	fmt.Println("asteroids in repo", asteroids)
-	fmt.Println("asteroids.NeoCounts in repo", asteroids.NeoCounts)
-
 	var existData string
 
 	for i, _ := range asteroids.NeoCounts {
@@ -29,9 +25,7 @@ func (a *AsteroidRepository) SaveAsteroidsRepo(l logger.Interface, asteroids *en
 
 		_ = a.Pool.QueryRow(context.Background(), `SELECT date FROM neo_counts where date = $1;`, dataNeo).Scan(&existData)
 
-		fmt.Println("existData", existData)
 		if existData == dataNeo {
-			fmt.Println("date already exist")
 			_, err := a.Pool.Exec(context.Background(), `UPDATE neo_counts SET count = $1 where date=$2;`,
 				countNEO, dataNeo)
 			if err != nil {

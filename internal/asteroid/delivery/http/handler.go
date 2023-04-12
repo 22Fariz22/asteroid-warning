@@ -2,15 +2,14 @@ package http
 
 import (
 	"context"
-	"fmt"
+	"net/http"
+	"strconv"
+	"time"
+
 	"github.com/22Fariz22/asteroid-warning/internal/asteroid"
 	"github.com/22Fariz22/asteroid-warning/internal/entity"
 	"github.com/22Fariz22/asteroid-warning/pkg/logger"
 	"github.com/gin-gonic/gin"
-	"net/http"
-	"reflect"
-	"strconv"
-	"time"
 )
 
 type Handler struct {
@@ -19,8 +18,6 @@ type Handler struct {
 }
 
 func NewHandler(useCase asteroid.UseCase, l logger.Interface) *Handler {
-	l.Info("create new handller")
-
 	return &Handler{
 		useCase: useCase,
 		l:       l,
@@ -29,8 +26,6 @@ func NewHandler(useCase asteroid.UseCase, l logger.Interface) *Handler {
 
 // SaveAsteroids POST "/neo/count"
 func (h *Handler) SaveAsteroids(c *gin.Context) {
-	h.l.Info("handler SaveAsteroids")
-
 	inp := new(entity.NeoCounts)
 	if err := c.BindJSON(inp); err != nil {
 		h.l.Error("failed unmarshal InputAsteroid:", err)
@@ -44,17 +39,12 @@ func (h *Handler) SaveAsteroids(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("inp: ", inp)
-	fmt.Println("refl inp: ", reflect.TypeOf(inp))
-
 	c.Status(http.StatusOK)
 }
 
 // GetAsteroids GET method  "/neo/count{dates}"
 // отдает ближайщую дату приближения,если есть такая среди переданных параметрах dates в адресе
 func (h *Handler) GetNextDate(c *gin.Context) {
-	h.l.Info("handler GetAsteroids")
-
 	//таймер на 10 секунд
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()

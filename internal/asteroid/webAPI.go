@@ -2,8 +2,9 @@ package asteroid
 
 import (
 	"context"
-	"github.com/22Fariz22/asteroid-warning/pkg/logger"
 	"time"
+
+	"github.com/22Fariz22/asteroid-warning/pkg/logger"
 )
 
 type NasaWebAPI interface {
